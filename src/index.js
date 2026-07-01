@@ -1,10 +1,12 @@
+const env = require("./config/env");
+
 const express = require("express");
 const healthRouter = require("./routes/health");
 const apiRouter = require("./routes/api");
 const telegramRouter = require("./routes/telegram");
 const app = express();
 
-const PORT = 3000;
+const PORT = process.env.PORT || 3000;
 
 app.use("/health", healthRouter);
 app.use("/api", apiRouter);

@@ -5,6 +5,18 @@ const getPing = (req, res) => {
   res.json(result);
 };
 
+const askQuestion = async (req, res) => {
+  const question = req.body.question;
+
+  if (!question) {
+    return res.status(400).json({ error: "질문이 필요합니다." });
+  }
+
+  const result = await apiService.askQuestion(question);
+  res.json(result);
+};
+
 module.exports = {
   getPing,
+  askQuestion,
 };

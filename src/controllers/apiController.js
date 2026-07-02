@@ -16,7 +16,19 @@ const askQuestion = async (req, res) => {
   res.json(result);
 };
 
+const generatePlan = async (req, res) => {
+  const topic = req.body.topic;
+
+  if (!topic) {
+    return res.status(400).json({ error: "주제가 필요합니다." });
+  }
+
+  const result = await apiService.generatePlan(topic);
+  res.json(result);
+};
+
 module.exports = {
   getPing,
   askQuestion,
+  generatePlan,
 };

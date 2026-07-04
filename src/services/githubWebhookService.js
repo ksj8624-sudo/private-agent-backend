@@ -30,7 +30,9 @@ const handleWebhook = async (payload) => {
 
   console.log("[Github] Pull Request Info:", prInfo);
 
-  const diff = githubApiService.getPullRequestDiff(prInfo.diff_url);
+  console.log("[Webhook] fetchDiff start");
+  const diff = await githubApiService.fetchDiff(prInfo.diff_url);
+  console.log("[Webhook] fetchDiff success");
 
   console.log("[Github] PR Diff Preview:");
   console.log(diff.slice(0, 2000));

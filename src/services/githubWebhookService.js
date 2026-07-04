@@ -30,13 +30,10 @@ const handleWebhook = async (payload) => {
 
   console.log("[Github] Pull Request Info:", prInfo);
 
-  console.log("[Webhook] fetchDiff start");
   const diff = await githubApiService.fetchDiff(prInfo.diff_url);
-  console.log("[Webhook] fetchDiff success");
+  const reviewCode = await openaiService.reviewCode(diff);
 
-  console.log("[Github] PR Diff Preview:");
-  console.log(diff.slice(0, 2000));
-
+  console.log("[Github] Code Review Result:", reviewCode);
   return {
     ok: true,
     event: "pull_request",

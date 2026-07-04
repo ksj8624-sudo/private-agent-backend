@@ -1,3 +1,4 @@
+const githubApiService = require("./githubApiService");
 const openaiService = require("./openaiService");
 
 const handleWebhook = async (payload) => {
@@ -28,6 +29,11 @@ const handleWebhook = async (payload) => {
   };
 
   console.log("[Github] Pull Request Info:", prInfo);
+
+  const diff = githubApiService.getPullRequestDiff(prInfo.diff_url);
+
+  console.log("[Github] PR Diff Preview:");
+  console.log(diff.slice(0, 2000));
 
   return {
     ok: true,

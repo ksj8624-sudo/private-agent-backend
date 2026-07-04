@@ -1,5 +1,6 @@
 const githubApiService = require("./githubApiService");
-const openaiService = require("./openaiService");
+const reviewService = require("./reviewService");
+const telegramService = require("./telegramService");
 
 const handleWebhook = async (payload) => {
   console.log("Received GitHub webhook payload:", payload);
@@ -31,9 +32,10 @@ const handleWebhook = async (payload) => {
   console.log("[Github] Pull Request Info:", prInfo);
 
   const diff = await githubApiService.fetchDiff(prInfo.diff_url);
-  const reviewCode = await openaiService.reviewCode(diff);
+  const reviewCode = await reviewService.reviewCode(diff);
 
-  console.log("[Github] Code Review Result:", reviewCode);
+  await telegramService.sendMessage(reviewCode);
+
   return {
     ok: true,
     event: "pull_request",

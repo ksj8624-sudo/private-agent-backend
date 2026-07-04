@@ -1,3 +1,5 @@
+const TelegramBot = require("node-telegram-bot-api");
+
 const getHelp = () => {
   return {
     title: "🤖 Private Agent 사용법",
@@ -13,6 +15,41 @@ const getHelp = () => {
   };
 };
 
+const sendMessage = async (message) => {
+  try {
+    const token = process.env.TELEGRAM_BOT_TOKEN;
+    const chatId = process.env.TELEGRAM_CHAT_ID;
+
+    if (!token || !chatId) {
+      console.error("Telegram bot token or chat ID is missing.");
+      return;
+    }
+
+    const respinse = await fetch(
+      `https://api.telegram.org/bot${token}/sendMessage`,
+      {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          chat_id: chatId,
+          text: message,
+        }),
+      },
+    );
+
+    if (!response.ok) {
+      throw new Error(`Telegram sendMessage failed: ${response.status}`);
+    }
+
+    return await response.json();
+  } catch (error) {
+    console.error("Error sending message:", error);
+  }
+};
+
 module.exports = {
   getHelp,
+  sendMessage,
 };

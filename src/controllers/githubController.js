@@ -1,4 +1,4 @@
-const githubWebhookSurvice = require("../services/githubWebhookService");
+const githubWebhookService = require("../services/githubWebhookService");
 
 const handleWebhook = async (req, res) => {
   const payload = req.body;
@@ -7,7 +7,7 @@ const handleWebhook = async (req, res) => {
     return res.status(400).json({ error: "Payload is required." });
   }
 
-  const result = await githubWebhookSurvice.handleWebhook(payload);
+  const result = await githubWebhookService.handleWebhook(payload);
   res.json(result);
 };
 

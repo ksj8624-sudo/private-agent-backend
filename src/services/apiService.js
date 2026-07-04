@@ -22,8 +22,21 @@ const generatePlan = async (topic) => {
   };
 };
 
+const reviewCode = async (reviewCode) => {
+  // 여기서 OpenAI API를 호출하여 코드 리뷰를 수행하는 로직을 작성합니다.
+  // 예시로, 코드 리뷰 결과를 반환하는 부분을 작성합니다.
+  const result = await openaiService.reviewCode(reviewCode);
+
+  return {
+    ok: true,
+    reviewCode,
+    answer: result.answer,
+  };
+};
+
 module.exports = {
   getPing,
   askQuestion,
   generatePlan,
+  reviewCode,
 };

@@ -28,6 +28,7 @@ const createPullRequestComment = async ({ repository, prNumber, body }) => {
     },
     body: JSON.stringify({ body }),
   });
+  console.log("[GitHub] comment request body:", { body });
 
   console.log("[GitHub] comment response status:", response.status);
   console.log("[GitHub] comment response data:", response.data);

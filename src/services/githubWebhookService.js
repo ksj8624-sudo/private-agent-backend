@@ -28,7 +28,10 @@ const handleWebhook = async (payload) => {
 
   const diff = await githubApiService.fetchDiff(prInfo.diff_url);
   const reviewCode = await reviewService.reviewCode(diff);
-  console.log("[Github] Create PR Comment start");
+  console.log(
+    "[Github] Create PR Comment start {prinfo.number}:",
+    prInfo.number,
+  );
   await githubApiService.createPullRequestComment({
     repository: prInfo.repository,
     prNumber: prInfo.number,

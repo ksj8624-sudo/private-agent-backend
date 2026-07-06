@@ -29,6 +29,12 @@ const handleWebhook = async (payload) => {
   const diff = await githubApiService.fetchDiff(prInfo.diff_url);
   const reviewCode = await reviewService.reviewCode(diff);
 
+  await githubApiService.createPullRequestComment({
+    repository: prInfo.repository,
+    prNumber: prInfo.number,
+    body: reviewCode,
+  });
+
   await telegramService.sendReview(prInfo, reviewCode);
 
   return {

@@ -29,6 +29,8 @@ const createPullRequestComment = async ({ repository, prNumber, body }) => {
     body: JSON.stringify({ body }),
   });
 
+  console.log("[GitHub] comment response status:", response.status);
+  console.log("[GitHub] comment response data:", response.data);
   if (!response.ok) {
     throw new Error(
       `Failed to create comment on PR #${prNumber}: ${response.status}`,

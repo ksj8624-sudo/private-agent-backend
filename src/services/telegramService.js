@@ -1,4 +1,5 @@
 const TelegramBot = require("node-telegram-bot-api");
+const { buildReviewMessage } = require("../messages/reviewMessage");
 
 const getHelp = () => {
   return {
@@ -47,6 +48,11 @@ const sendMessage = async (message) => {
   } catch (error) {
     console.error("Error sending message:", error);
   }
+};
+
+const rendReview = async (prInfo, review) => {
+  const message = buildReviewMessage(prInfo, review);
+  await sendMessage(message);
 };
 
 module.exports = {

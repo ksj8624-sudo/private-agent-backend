@@ -34,7 +34,7 @@ const handleWebhook = async (payload) => {
   const diff = await githubApiService.fetchDiff(prInfo.diff_url);
   const reviewCode = await reviewService.reviewCode(diff);
 
-  await telegramService.sendMessage(reviewCode);
+  await telegramService.sendReview(prInfo, reviewCode);
 
   return {
     ok: true,

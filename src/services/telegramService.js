@@ -1,3 +1,7 @@
+/**
+ * TelegramService 텔레그램 메시지 전송 담당
+ */
+
 const TelegramBot = require("node-telegram-bot-api");
 const { buildReviewMessage } = require("../messages/reviewMessage");
 

@@ -20,6 +20,8 @@ const askQuestion = async (question) => {
     });
 
     return {
+      ok: true,
+      question,
       answer: response.choices[0].message.content.trim(),
     };
   } catch (error) {
@@ -49,6 +51,8 @@ const generatePlan = async (topic) => {
     });
 
     return {
+      ok: true,
+      topic,
       answer: response.choices[0].message.content.trim(),
     };
   } catch (error) {

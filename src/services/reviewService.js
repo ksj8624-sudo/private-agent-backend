@@ -1,5 +1,5 @@
 const openAiService = require("./openaiService");
-const { buildReviewPrompt } = require("../prompts/reviewPrompt");
+const { buildReviewPrompt } = require("../prompts/ai/reviewPrompt");
 
 const reviewCode = async (diff) => {
   if (!diff) {

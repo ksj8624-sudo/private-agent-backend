@@ -3,14 +3,11 @@ const reviewService = require("./reviewService");
 const telegramService = require("./telegramService");
 
 const handleWebhook = async (payload) => {
-  console.log("Received GitHub webhook payload:", payload);
-
   const action = payload.action;
   const repository = payload.repository?.full_name;
   const pull_request = payload.pull_request;
 
   if (!pull_request) {
-    console.log("[Github] Not pull request event");
     return {
       ok: true,
       ignore: true,
@@ -28,8 +25,6 @@ const handleWebhook = async (payload) => {
     url: pull_request.html_url,
     diff_url: pull_request.diff_url,
   };
-
-  console.log("[Github] Pull Request Info:", prInfo);
 
   const diff = await githubApiService.fetchDiff(prInfo.diff_url);
   const reviewCode = await reviewService.reviewCode(diff);

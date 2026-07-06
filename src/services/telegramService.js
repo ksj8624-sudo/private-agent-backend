@@ -26,8 +26,6 @@ const sendMessage = async (message) => {
       return;
     }
 
-    console.log("Sending message to Telegram:", message);
-
     const response = await fetch(
       `https://api.telegram.org/bot${token}/sendMessage`,
       {
@@ -41,7 +39,7 @@ const sendMessage = async (message) => {
         }),
       },
     );
-    console.log("Sending message to Telegram response:", response);
+
     if (!response.ok) {
       throw new Error(`Telegram sendMessage failed: ${response.status}`);
     }

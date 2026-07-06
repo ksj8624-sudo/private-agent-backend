@@ -50,7 +50,7 @@ const sendMessage = async (message) => {
   }
 };
 
-const rendReview = async (prInfo, review) => {
+const sendReview = async (prInfo, review) => {
   const message = buildReviewMessage(prInfo, review);
   await sendMessage(message);
 };
@@ -58,4 +58,5 @@ const rendReview = async (prInfo, review) => {
 module.exports = {
   getHelp,
   sendMessage,
+  sendReview,
 };

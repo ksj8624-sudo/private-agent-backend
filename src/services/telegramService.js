@@ -26,6 +26,8 @@ const sendMessage = async (message) => {
       return;
     }
 
+    console.log("Sending message to Telegram:", message);
+
     const respinse = await fetch(
       `https://api.telegram.org/bot${token}/sendMessage`,
       {

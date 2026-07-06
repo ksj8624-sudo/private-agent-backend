@@ -41,7 +41,7 @@ const sendMessage = async (message) => {
         }),
       },
     );
-
+    console.log("Sending message to Telegram response:", response);
     if (!response.ok) {
       throw new Error(`Telegram sendMessage failed: ${response.status}`);
     }

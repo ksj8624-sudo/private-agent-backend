@@ -34,7 +34,7 @@ const handleWebhook = async (payload) => {
     prNumber: prInfo.number,
     body: reviewCode.answer,
   });
-  console.log("[Github] Create PR Comment start");
+
   await telegramService.sendReview(prInfo, reviewCode);
 
   return {

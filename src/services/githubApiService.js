@@ -31,7 +31,7 @@ const createPullRequestComment = async ({ repository, prNumber, body }) => {
 
   if (!response.ok) {
     throw new Error(
-      `Failed to create comment on PR #${pullNumber}: ${response.status}`,
+      `Failed to create comment on PR #${prNumber}: ${response.status}`,
     );
   }
 

@@ -28,9 +28,9 @@ const handleWebhook = async (payload) => {
 
   const diff = await githubApiService.fetchDiff(prInfo.diff_url);
   const reviewCode = await reviewService.reviewCode(diff);
-  console.log("[GitHub] comment body:", body);
-  console.log("[GitHub] comment body type:", typeof body);
-  console.log("[GitHub] comment body length:", body?.length);
+  console.log("[GitHub] comment body:", prInfo.body);
+  console.log("[GitHub] comment body type:", typeof prInfo.body);
+  console.log("[GitHub] comment body length:", prInfo.body?.length);
   await githubApiService.createPullRequestComment({
     repository: prInfo.repository,
     prNumber: prInfo.number,

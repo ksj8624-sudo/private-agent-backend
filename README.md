@@ -1,10 +1,58 @@
-# Private Agent Backend
+# 🤖 Private Agent Backend
 
-## Overview
+AI 기반 개발 에이전트의 Backend 서버입니다.
 
-Private Agent Backend는 Private Agent Platform의 Backend API 서버이다.
+GitHub Pull Request를 자동으로 분석하여 OpenAI로 코드 리뷰를 수행하고,
+GitHub PR Comment와 Telegram으로 리뷰 결과를 전달합니다.
 
-Frontend(React)와 Agent(Lambda)를 연결하는 핵심 서비스 역할을 수행한다.
+---
+
+## Features
+
+### AI
+
+- AI Question Answering
+- Development Plan Generator
+- AI Code Review
+
+### GitHub
+
+- GitHub Webhook
+- Pull Request Event Processing
+- Pull Request Diff Fetch
+- AI Review
+- GitHub PR Comment
+
+### Notification
+
+- Telegram Notification
+
+---
+
+## Architecture
+
+```
+GitHub Pull Request
+        │
+        ▼
+ GitHub Webhook
+        │
+        ▼
+Private Agent Backend
+        │
+        ├──────────────┐
+        ▼              ▼
+GitHub API       OpenAI API
+(Diff Fetch)     (Code Review)
+        │              │
+        └──────┬───────┘
+               ▼
+        Review Service
+               │
+        ┌──────┴──────┐
+        ▼             ▼
+GitHub Comment   Telegram
+```
 
 ---
 
@@ -12,56 +60,40 @@ Frontend(React)와 Agent(Lambda)를 연결하는 핵심 서비스 역할을 수�
 
 - Node.js
 - Express
-- JWT (예정)
-- PostgreSQL (예정)
-- AWS (예정)
-
----
-
-## Responsibilities
-
-- Login
-- JWT Authentication
-- User API
-- Project API
-- Review History
-- Dashboard API
+- OpenAI API
+- GitHub Webhook
+- GitHub REST API
+- Telegram Bot API
 
 ---
 
 ## Project Structure
 
-private-agent-backend
-│
-├── src
-├── docs
-├── package.json
-└── README.md
-
-
----
-
-## Development Roadmap
-
-Phase 1
-- Express Server
-- Health Check API
-
-Phase 2
-- Login API
-- JWT
-
-Phase 3
-- Database
-
-Phase 4
-- Project API
-
-Phase 5
-- Dashboard API
+```
+src
+├── controllers
+├── routes
+├── services
+├── prompts
+├── messages
+└── utils
+```
 
 ---
 
-## Status
+## Current Status
 
-Project Initialized
+### ✅ Completed
+
+- GitHub Webhook
+- Pull Request Diff Fetch
+- AI Code Review
+- GitHub PR Comment
+- Telegram Notification
+
+### 🚧 Next
+
+- Dashboard
+- Cursor Integration
+- Multi Repository Support
+- Review History

@@ -1,5 +1,6 @@
 const OpenAI = require("openai");
 const config = require("../config/env");
+const { buildPlanPrompt } = require("../prompts/ai/planPrompt");
 const apiKey = config.OPENAI_API_KEY;
 
 const openai = new OpenAI({
@@ -30,21 +31,47 @@ const askQuestion = async (question) => {
 };
 
 const generatePlan = async (topic) => {
-  const prompt = `너는 개발 계획을 세워주는 시니어 개발 리더야.
-      아래 주제에 대해 실행 가능한 개발 계획을 작성해줘.
+  const prompt = buildPlanPrompt(topic);
 
-      주제:
-      ${topic}
+  try {
+    const response = await openai.chat.completions.create({
+      model: "gpt-3.5-turbo",
+      messages: [
+        {
+          role: "system",
+          content: "너는 개발 계획을 잘게 쪼개서 설명하는 개발 멘토다.",
+        },
+        {
+          role: "user",
+          content: prompt,
+        },
+      ],
+    });
 
-      응답 형식:
-      1. 목표
-      2. 구현 단계
-      3. 필요한 파일/모듈
-      4. 테스트 방법
-      5. 주의할 점
+    return {
+      answer: response.choices[0].message.content.trim(),
+    };
+  } catch (error) {
+    console.error("Error while generating plan:", error);
+    throw new Error(
+      error.message || "An error occurred while generating the plan.",
+    );
+  }
+};
 
-      답변은 한국어로, 너무 길지 않게 정리해줘.
-  `;
+const reviewCode = async (code) => {
+  const prompt = `너는 시니어 개발자다.
+    아래 코드를 리뷰해줘.
+
+    1. 장점
+    2. 개선점
+    3. 버그 가능성
+    4. 리팩터링 제안
+
+    코드:
+
+    ${code}`;
+
   try {
     const response = await openai.chat.completions.create({
       model: "gpt-3.5-turbo",
@@ -74,4 +101,5 @@ const generatePlan = async (topic) => {
 module.exports = {
   askQuestion,
   generatePlan,
+  reviewCode,
 };

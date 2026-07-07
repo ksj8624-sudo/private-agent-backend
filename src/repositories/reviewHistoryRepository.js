@@ -1,7 +1,7 @@
 const db = require("../db/sqlite");
 
 const save = ({ repository, prNumber, title, author, prUrl, review }) => {
-  const stmt = db.prNumber(`
+  const stmt = db.prepare(`
         INSERT INTO review_histories (
             repository,
             pr_number,

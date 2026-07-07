@@ -18,11 +18,11 @@ const saveReview = async ({
   });
 };
 
-const getRecentReviews = async (limit) => {
+const getReviewHistory = async (limit) => {
   return reviewHistoryRepository.findRecent(limit);
 };
 
 module.exports = {
   saveReview,
-  getRecentReviews,
+  getReviewHistory,
 };

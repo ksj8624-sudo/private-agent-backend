@@ -22,4 +22,7 @@ curl -X POST http://localhost:3000/api/review \
 -d '{"reviewCode":"const a=1;"}'
 
 echo
+echo "===== Review History ====="
+curl -s "http://localhost:3000/reviewHistory?limit=5" | jq
+echo
 echo "===== Done ====="

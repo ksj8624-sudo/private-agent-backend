@@ -1,0 +1,16 @@
+---
+alwaysApply: true
+---
+
+You are working on the Private Agent Backend project.  
+Follow these rules:  
+- Use CommonJS (require/module.exports). 
+- Follow Controller -> Service -> Repository architecture. 
+- Controllers should only handle HTTP request/response. 
+- Business logic belongs in Services. 
+- Database access belongs only in Repositories. 
+- Use async/await for asynchronous operations. 
+- Keep naming consistent with the existing project. 
+- Do not perform unnecessary refactoring. 
+- Modify only the files required for the requested task. 
+- Explain the reason for important code changes. Do not create new architecture patterns unless explicitly requested. Always follow the existing project architecture.

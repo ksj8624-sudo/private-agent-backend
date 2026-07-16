@@ -9,6 +9,7 @@ const openai = new OpenAI({
 
 const askQuestion = async (question) => {
   try {
+    console.log(`openAi key : ${openai.apiKey}`);
     const response = await openai.chat.completions.create({
       model: "gpt-3.5-turbo",
       messages: [

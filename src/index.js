@@ -6,6 +6,7 @@ const apiRouter = require("./routes/api");
 const telegramRouter = require("./routes/telegram");
 const githubRouter = require("./routes/github");
 const reviewHistoryRouter = require("./routes/reviewHistory");
+const devRouter = require("./routes/dev");
 
 const app = express();
 
@@ -17,6 +18,7 @@ app.use("/api", apiRouter);
 app.use("/telegram", telegramRouter);
 app.use("/github", githubRouter);
 app.use("/reviewHistory", reviewHistoryRouter);
+app.use("/dev", devRouter);
 
 app.get("/", (req, res) => {
   res.send("Welcome to the Private Agent Backend!");

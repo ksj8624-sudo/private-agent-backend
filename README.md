@@ -23,9 +23,21 @@ GitHub PR Comment와 Telegram으로 리뷰 결과를 전달합니다.
 - AI Review
 - GitHub PR Comment
 
+### Storage
+
+- SQLite Review History
+
 ### Notification
 
 - Telegram Notification
+
+## API
+
+GET /health/ping
+POST /api/ask
+POST /api/plan
+POST /api/review
+GET /reviewHistory
 
 ---
 
@@ -48,11 +60,11 @@ GitHub API       OpenAI API
         └──────┬───────┘
                ▼
         Review Service
-               │
-        ┌──────┴──────┐
-        ▼             ▼
-GitHub Comment   Telegram
-```
+       │
+ ┌─────┼─────────┐
+ ▼     ▼         ▼
+SQLite GitHub   Telegram
+History Comment Notification
 
 ---
 
@@ -70,13 +82,16 @@ GitHub Comment   Telegram
 ## Project Structure
 
 ```
+
 src
 ├── controllers
 ├── routes
 ├── services
+├── repositories
+├── db
 ├── prompts
-├── messages
-└── utils
+└── messages
+
 ```
 
 ---
@@ -90,10 +105,12 @@ src
 - AI Code Review
 - GitHub PR Comment
 - Telegram Notification
+- SQLite Review History
+- Review History API
 
 ### 🚧 Next
 
 - Dashboard
 - Cursor Integration
 - Multi Repository Support
-- Review History
+```

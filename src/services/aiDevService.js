@@ -7,10 +7,10 @@ const getCursorMode = (type) => {
     return "ask";
   }
 
-  return "agent";
+  return null;
 };
 
-const requestCursor = async ({ type, task }) => {
+const requestCursor = async ({ workspace, type, task }) => {
   let prompt;
   switch (type) {
     case AI_DEV_TYPES.FEATURE:
@@ -30,6 +30,7 @@ const requestCursor = async ({ type, task }) => {
   }
 
   const result = await cursorAgentService.execute({
+    workspace,
     prompt,
     mode: getCursorMode(type),
   });

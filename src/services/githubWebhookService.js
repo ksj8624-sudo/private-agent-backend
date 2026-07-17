@@ -1,6 +1,7 @@
 const githubApiService = require("./githubApiService");
 const reviewService = require("./reviewService");
 const telegramService = require("./telegramService");
+const reviewHistoryService = require("./reviewHistoryService");
 
 const handleWebhook = async (payload) => {
   const action = payload.action;
@@ -36,6 +37,14 @@ const handleWebhook = async (payload) => {
   });
 
   await telegramService.sendReview(prInfo, reviewCode);
+  await reviewHistoryService.saveReview({
+    repository: prInfo.repository,
+    prNumber: prInfo.number,
+    title: prInfo.title,
+    author: prInfo.author,
+    prUrl: prInfo.url,
+    review: reviewCode.answer,
+  });
 
   return {
     ok: true,

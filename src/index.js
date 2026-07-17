@@ -5,8 +5,12 @@ const healthRouter = require("./routes/health");
 const apiRouter = require("./routes/api");
 const telegramRouter = require("./routes/telegram");
 const githubRouter = require("./routes/github");
+const reviewHistoryRouter = require("./routes/reviewHistory");
+const devRouter = require("./routes/dev");
 
 const app = express();
+
+console.log("hello");
 
 const PORT = process.env.PORT || 3000;
 
@@ -15,6 +19,8 @@ app.use("/health", healthRouter);
 app.use("/api", apiRouter);
 app.use("/telegram", telegramRouter);
 app.use("/github", githubRouter);
+app.use("/reviewHistory", reviewHistoryRouter);
+app.use("/dev", devRouter);
 
 app.get("/", (req, res) => {
   res.send("Welcome to the Private Agent Backend!");

@@ -5,6 +5,8 @@ const { VALID_AI_DEV_WORKSPACES } = require("../constants/aiDevConstant");
 
 const requestAgent = async (req, res) => {
   const payload = req.body;
+  console.log("review body:", req.body);
+
   if (!payload) {
     return res.status(400).json({ error: "Payload is required." });
   }
@@ -25,12 +27,20 @@ const requestAgent = async (req, res) => {
     return res.status(400).json({ error: "Task is required." });
   }
 
+  const startedAt = Date.now();
+
   let answer = await aiDevService.requestAgent({
     agent: payload.agentType,
     workspace: payload.workspace,
     taskType: payload.taskType,
     task: payload.task.trim(),
   });
+
+  console.log("[dev/agent] AI completed", {
+    elapsedMs: Date.now() - startedAt,
+    answer,
+  });
+
   return res.json({
     ok: true,
     tool: payload.agentType,
@@ -40,6 +50,23 @@ const requestAgent = async (req, res) => {
   });
 };
 
+const getAgentHistories = async (req, res, next) => {
+  try {
+    const limit = Number(req.query.limit) || 20;
+
+    const agentHistories = await aiDevService.getAgentHistories({
+      limit,
+    });
+
+    return res.json({
+      agentHistories,
+    });
+  } catch (error) {
+    next(error);
+  }
+};
+
 module.exports = {
   requestAgent,
+  getAgentHistories,
 };

@@ -1,5 +1,5 @@
-const { executeCli } = require("./aiDev/cliExecutor");
-const { getWorkspacePath } = require("../config/workspaces");
+const { executeCli } = require("./cliExecutor");
+const { getWorkspacePath } = require("../../config/workspaces");
 
 const execute = async ({ prompt, mode = "ask", workspace }) => {
   const workspacePath = getWorkspacePath(workspace);

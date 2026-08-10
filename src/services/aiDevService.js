@@ -3,8 +3,10 @@ const {
   AI_DEV_TASK_TYPES,
   AI_DEV_AGENT_TYPES,
 } = require("../constants/aiDevConstant");
-const cursorAgentService = require("./cursorAgentService");
-const codexAgentService = require("./codexAgentService");
+const cursorAgentService = require("./aiAgent/cursorAgentService");
+const codexAgentService = require("./aiAgent/codexAgentService");
+const claudeAgentService = require("./aiAgent/claudeAgentService");
+const agentHistoryRepository = require("../repositories/agentHistoryRepository");
 
 const getCursorMode = (taskType) => {
   if (taskType === AI_DEV_TASK_TYPES.REVIEW) {
@@ -14,50 +16,114 @@ const getCursorMode = (taskType) => {
   return null;
 };
 
-const requestAgent = async ({ agent, workspace, taskType, task }) => {
-  let prompt;
-  console.log(`agent service ${agent} ${workspace} ${taskType} ${task}`);
+const buildPrompt = ({ taskType, task }) => {
   switch (taskType) {
     case AI_DEV_TASK_TYPES.FEATURE:
-      prompt = cursorPrompt.buildFeaturePrompt(taskType);
-      break;
+      return cursorPrompt.buildFeaturePrompt(task);
+
     case AI_DEV_TASK_TYPES.REFACTOR:
-      prompt = cursorPrompt.buildRefactorPrompt(taskType);
-      break;
+      return cursorPrompt.buildRefactorPrompt(task);
+
     case AI_DEV_TASK_TYPES.BUGFIX:
-      prompt = cursorPrompt.buildBugfixPrompt(taskType);
-      break;
+      return cursorPrompt.buildBugfixPrompt(task);
+
     case AI_DEV_TASK_TYPES.REVIEW:
-      prompt = cursorPrompt.buildReviewPrompt(taskType);
-      break;
+      return cursorPrompt.buildReviewPrompt(task);
+
     default:
       throw new Error("Unsupported AI dev type.");
   }
+};
 
-  let result;
-
-  console.log(`${agent} ${taskType}`);
+const executeAgent = async ({ agent, workspace, taskType, prompt }) => {
   switch (agent) {
     case AI_DEV_AGENT_TYPES.CURSOR:
-      result = await cursorAgentService.execute({
+      return cursorAgentService.execute({
         workspace,
         prompt,
         mode: getCursorMode(taskType),
       });
-      break;
+
     case AI_DEV_AGENT_TYPES.CODEX:
-      result = await codexAgentService.execute({
+      return codexAgentService.execute({
         workspace,
         prompt,
       });
-      break;
+    case AI_DEV_AGENT_TYPES.CLAUDE:
+      return claudeAgentService.execute({
+        workspace,
+        prompt,
+      });
+
     default:
-      throw new Error("Unsupported AI Agent");
+      throw new Error("Unsupported AI Agent.");
+  }
+};
+
+const saveHistory = ({
+  agent,
+  workspace,
+  taskType,
+  task,
+  result,
+  status,
+  durationMs,
+  errorMessage,
+}) => {
+  agentHistoryRepository.save({
+    agentType: agent,
+    workspace,
+    taskType,
+    task,
+    result,
+    status,
+    durationMs,
+    errorMessage,
+  });
+  console.log(`save success`);
+};
+
+const requestAgent = async ({ agent, workspace, taskType, task }) => {
+  const startedAt = Date.now();
+
+  let result;
+  try {
+    let prompt = buildPrompt({ taskType, task });
+    result = await executeAgent({ agent, workspace, taskType, prompt });
+
+    saveHistory({
+      agent,
+      workspace,
+      taskType,
+      task,
+      result,
+      status: "success",
+      durationMs: Date.now() - startedAt,
+      errorMessage: null,
+    });
+  } catch (error) {
+    saveHistory({
+      agent,
+      workspace,
+      taskType,
+      task,
+      result: null,
+      status: "fail",
+      durationMs: Date.now() - startedAt,
+      errorMessage: error.message,
+    });
+
+    throw error;
   }
 
   return result;
 };
 
+const getAgentHistories = ({ limit = 20 } = {}) => {
+  return agentHistoryRepository.findRecent(limit);
+};
+
 module.exports = {
   requestAgent,
+  getAgentHistories,
 };

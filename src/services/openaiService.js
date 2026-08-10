@@ -37,6 +37,7 @@ const generatePlan = async (topic) => {
   const prompt = buildPlanPrompt(topic);
 
   try {
+    console.log(`prompt ${prompt}`);
     const response = await openai.chat.completions.create({
       model: "gpt-3.5-turbo",
       messages: [
@@ -50,7 +51,7 @@ const generatePlan = async (topic) => {
         },
       ],
     });
-
+    console.log(`response ${response}`);
     return {
       ok: true,
       topic,

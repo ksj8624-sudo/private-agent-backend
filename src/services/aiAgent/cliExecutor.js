@@ -74,20 +74,31 @@ const executeCli = ({
     });
 
     child.on("close", (code, signal) => {
-      console.log("[Cursor] Closed");
-      console.log("[Cursor] Exit code:", code);
-      console.log("[Cursor] stdout length:", stdout.length);
-      if (code !== 0) {
-        reject(
-          new Error(stderr.trim() || `${command} exited with code ${code}`),
-        );
-        return;
-      }
+      finish(() => {
+        console.log("[cliExecutor] Closed", {
+          code,
+          signal,
+          stdoutLength: stdout.length,
+          stderrLength: stderr.length,
+        });
 
-      resolve({
-        stdout: stdout.trim(),
-        stderr: stderr.trim(),
-        exitCode: code,
+        if (code !== 0) {
+          reject(
+            new Error(
+              stderr.trim() ||
+                `${command} exited with code ${code}${
+                  signal ? ` (signal: ${signal})` : ""
+                }`,
+            ),
+          );
+          return;
+        }
+
+        resolve({
+          stdout: stdout.trim(),
+          stderr: stderr.trim(),
+          exitCode: code,
+        });
       });
     });
   });

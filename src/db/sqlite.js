@@ -10,7 +10,21 @@ db.exec(`
     author TEXT,
     pr_url TEXT,
     review TEXT NOT NULL,
-    created_at TEXT NOT NULL )
+    created_at TEXT NOT NULL DEFAULT CURRENT_TIMESTAMP )
+`);
+
+db.exec(`
+  CREATE TABLE IF NOT EXISTS agent_histories (
+    id INTEGER PRIMARY KEY AUTOINCREMENT,
+    agent_type TEXT NOT NULL,
+    workspace TEXT NOT NULL,
+    task_type TEXT NOT NULL,
+    task TEXT NOT NULL,
+    result TEXT,
+    status TEXT NOT NULL,
+    duration_ms INTEGER,
+    error_message TEXT,
+    created_at TEXT NOT NULL DEFAULT CURRENT_TIMESTAMP )
 `);
 
 module.exports = db;

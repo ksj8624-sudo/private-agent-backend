@@ -7,10 +7,10 @@ const telegramRouter = require("./routes/telegram");
 const githubRouter = require("./routes/github");
 const reviewHistoryRouter = require("./routes/reviewHistory");
 const devRouter = require("./routes/dev");
+const cors = require("cors");
 
 const app = express();
-
-console.log("hello");
+app.use(cors());
 
 const PORT = process.env.PORT || 3000;
 

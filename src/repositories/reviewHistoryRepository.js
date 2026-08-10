@@ -8,9 +8,8 @@ const save = ({ repository, prNumber, title, author, prUrl, review }) => {
             title,
             author,
             pr_url,
-            review,
-            created_at
-        ) VALUES (@repository, @prNumber, @title, @author, @prUrl, @review, @createdAt)
+            review
+        ) VALUES (@repository, @prNumber, @title, @author, @prUrl, @review)
     `);
 
   const result = stmt.run({
@@ -20,7 +19,6 @@ const save = ({ repository, prNumber, title, author, prUrl, review }) => {
     author,
     prUrl,
     review,
-    createdAt: new Date().toISOString(),
   });
 
   return { id: result.lastInsertRowid };

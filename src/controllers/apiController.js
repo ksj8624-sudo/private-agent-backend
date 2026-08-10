@@ -20,13 +20,14 @@ const askQuestion = async (req, res) => {
 
 const generatePlan = async (req, res) => {
   const topic = req.body.topic;
-
+  console.log(`topic : ${topic}`);
   if (!topic) {
     return res.status(400).json({ error: "주제가 필요합니다." });
   }
 
   const result = await openAiService.generatePlan(topic);
-  res.json(result);
+  console.log(`result = ${result.answer}`);
+  return res.json(result);
 };
 
 const reviewCode = async (req, res) => {

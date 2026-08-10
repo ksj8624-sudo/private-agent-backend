@@ -26,3 +26,9 @@ echo "===== Review History ====="
 curl -s "http://localhost:3000/reviewHistory?limit=5" | jq
 echo
 echo "===== Done ====="
+
+echo
+echo "===== Agent History ====="
+curl -s "http://localhost:3000/dev/agent/history?limit=5" | jq
+echo
+echo "===== Done ====="

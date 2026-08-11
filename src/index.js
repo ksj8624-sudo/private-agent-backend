@@ -7,6 +7,7 @@ const telegramRouter = require("./routes/telegram");
 const githubRouter = require("./routes/github");
 const reviewHistoryRouter = require("./routes/reviewHistory");
 const devRouter = require("./routes/dev");
+const authRouter = require("./routes/auth");
 const cors = require("cors");
 
 const app = express();
@@ -16,6 +17,7 @@ const PORT = process.env.PORT || 3000;
 
 app.use(express.json());
 app.use("/health", healthRouter);
+app.use("/api/auth", authRouter);
 app.use("/api", apiRouter);
 app.use("/telegram", telegramRouter);
 app.use("/github", githubRouter);

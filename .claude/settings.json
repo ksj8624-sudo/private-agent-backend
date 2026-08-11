@@ -1,0 +1,15 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(ls -la /private/tmp/claude-501/-Users-kimseongjin-Desktop-workspace-private-agent-backend/*/scratchpad/xlsxgen 2>&1 | head -5 *)",
+      "Read(//private/tmp/claude-501/-Users-kimseongjin-Desktop-workspace-private-agent-backend/**)",
+      "Bash(mkdir -p /private/tmp/claude-501/-Users-kimseongjin-Desktop-workspace-private-agent-backend/007cd150-a8f3-4324-99eb-2bd5b2a9ee5c/scratchpad/xlsxread *)",
+      "Bash(git -C /Users/kimseongjin/Desktop/workspace/private-agent-backend status --short)",
+      "Bash(node -e ' *)",
+      "Read(//Users/kimseongjin/Desktop/workspace/**)"
+    ],
+    "additionalDirectories": [
+      "/Users/kimseongjin/Desktop/workspace/ai-agent-lab/docs/prompts/workflows"
+    ]
+  }
+}

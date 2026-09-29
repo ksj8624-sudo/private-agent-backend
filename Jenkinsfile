@@ -25,6 +25,10 @@ pipeline {
 
     stages {
         stage('Health Check') {
+            environment {
+                OPENAI_API_KEY = credentials('openai-api-key')
+            }
+
             steps {
                 sh '''
                     PORT=3100 npm start > server.log 2>&1 &

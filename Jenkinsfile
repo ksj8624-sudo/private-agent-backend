@@ -24,6 +24,36 @@ pipeline {
     }
 
     stages {
+        stage('Health Check') {
+            steps {
+                sh '''
+                    PORT=3100 npm start > server.log 2>&1 &
+                    SERVER_PID=$!
+
+                    trap 'kill "$SERVER_PID" 2>/dev/null || true' EXIT
+
+                    ATTEMPT=1
+                    while [ "$ATTEMPT" -le 15 ]; do
+                        if curl --fail --silent --show-error \
+                            http://127.0.0.1:3100/health
+                        then
+                            echo
+                            echo "Health check succeeded."
+                            exit 0
+                        fi
+
+                        sleep 1
+                        ATTEMPT=$((ATTEMPT + 1))
+                    done
+
+                    echo "Health check failed."
+                    echo "----- server.log -----"
+                    cat server.log
+                    exit 1
+                '''
+            }
+        }
+
         stage('Checkout') {
             steps {
                 script {

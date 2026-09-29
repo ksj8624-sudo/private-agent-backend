@@ -5,6 +5,19 @@ pipeline {
         nodejs 'nodejs-24'
     }
 
+    parameters {
+            gitParameter(
+            name: 'BRANCH_NAME',
+            type: 'PT_BRANCH',
+            defaultValue: 'refactor/common-cli-executor',
+            branchFilter: 'origin/(.*)',
+            sortMode: 'ASCENDING_SMART',
+            selectedValue: 'DEFAULT',
+            quickFilterEnabled: true,
+            description: '빌드할 Git 브랜치를 선택하세요.'
+        )
+    }
+
     options {
         skipDefaultCheckout(true)
         timestamps()
@@ -13,7 +26,20 @@ pipeline {
     stages {
         stage('Checkout') {
             steps {
-                checkout scm
+                script {
+                    def selectedBranch =
+                        params.BRANCH_NAME.replaceFirst('^origin/', '')
+
+                    echo "Selected branch: ${selectedBranch}"
+
+                    checkout([
+                        $class: 'GitSCM',
+                        branches: [[name: "*/${selectedBranch}"]],
+                        userRemoteConfigs: [[
+                            url: 'https://github.com/ksj8624-sudo/private-agent-backend.git'
+                        ]]
+                    ])
+                }
             }
         }
 
